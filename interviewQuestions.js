@@ -1,4 +1,4 @@
-export const interviewQuestions = [
+ const interviewQuestions = [
   // JS CORE
 
   // Q1: bind() vs call() vs apply() - COMBINED Q1 & Q12
@@ -1206,3 +1206,4 @@ export const interviewQuestions = [
       "toString(): 5,20,3,10\njoin(): 5 | 20 | 3 | 10\nconcat(): [5, 20, 3, 10, 1, 2]\nArray.from(): ['a', 'b', 'c']\n// ... (full console output from Q82)",
   },
 ];
+
