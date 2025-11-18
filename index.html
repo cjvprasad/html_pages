@@ -35,82 +35,11 @@
 </head>
 <body>
     <div id="root"></div>
+    <script src="interviewQuestions.js"></script>
 
     <script type="text/babel">
         const { useState, useMemo } = React;
         const root = ReactDOM.createRoot(document.getElementById('root'));
-
-        // --- 1. MOCK DATA: Frontend Interview Questions ---
-        const interviewQuestions = [
-            {
-                id: 1,
-                title: "Event Delegation",
-                category: "DOM & Events",
-                explanation: "Event delegation is a pattern where you attach a single event listener to a parent element instead of multiple listeners to child elements. This technique is crucial for managing events on dynamic lists or very large structures, improving performance and memory usage significantly.",
-                tips: "Explain how it relies on event bubbling. Mention its performance benefits and the key challenge: correctly identifying the target element within the listener.",
-                codeString: `document.getElementById('list').addEventListener('click', function(e) {
-    // Check if the clicked element is an <li> item
-    if (e.target.tagName === 'LI') {
-        console.log('Item clicked: ' + e.target.textContent);
-    }
-});`,
-                output: "Item clicked: Item 3"
-            },
-            {
-                id: 2,
-                title: "Strict vs. Loose Equality (`==` vs `===`)",
-                category: "JavaScript Basics",
-                explanation: "`==` (equality) performs **type coercion** before comparing values. For instance, '5' == 5 is true. `===` (strict equality) compares values and types directly **without coercion**. '5' === 5 is false.",
-                tips: "Always advocate for using `===` in modern JavaScript to prevent unexpected type coercion side effects. The only common exception is checking for null or undefined: `value == null` will catch both.",
-                codeString: `console.log(5 == '5');     // true (coercion happens)
-console.log(5 === '5');    // false (strict comparison)
-console.log(null == undefined); // true (special coercion)
-console.log(null === undefined); // false`,
-                output: "true\nfalse\ntrue\nfalse"
-            },
-            {
-                id: 3,
-                title: "The `this` Keyword in JavaScript",
-                category: "Scope & Context",
-                explanation: "The value of `this` is determined at **runtime** based on how a function is called, not where it is defined. Its value changes based on invocation context (e.g., global, object method, constructor, or explicitly bound).",
-                tips: "Discuss the four main rules: default (global/undefined in strict mode), implicit (object method), explicit (`call`, `apply`, `bind`), and constructor (`new`). Mention that arrow functions lexically bind `this` (they inherit it from the parent scope).",
-                codeString: `const obj = {
-    name: 'Alice',
-    greet: function() {
-        console.log(this.name);
-    }
-};
-
-const unboundGreet = obj.greet;
-obj.greet();       // Output: Alice (Implicit binding)
-unboundGreet();    // Output: undefined (Default/Global binding)`,
-                output: "Alice\nundefined"
-            },
-            {
-                id: 4,
-                title: "Virtual DOM and Reconciliation",
-                category: "React Core",
-                explanation: "The Virtual DOM (VDOM) is a programming concept where a virtual representation of a UI is kept in memory and synced with the 'real' DOM. React's **reconciliation** algorithm efficiently updates the real DOM by comparing the new VDOM tree with the previous one (diffing).",
-                tips: "Emphasize that the VDOM itself doesn't guarantee speed; the efficiency comes from the diffing algorithm (reconciliation) which minimizes direct DOM manipulations, the slowest operation.",
-                codeString: "// Conceptually:\nconst previousVdom = render(oldState);\nconst newVdom = render(newState);\n\n// Reconciliation compares the two and generates a minimal patch\nconst domPatch = diff(previousVdom, newVdom);\n\n// Updates the real DOM only where necessary\ndom.apply(domPatch);",
-                output: "Minimal DOM updates applied."
-            },
-            {
-                id: 5,
-                title: "Memoization with `useMemo` and `useCallback`",
-                category: "React Hooks",
-                explanation: "Memoization optimizes performance by caching the result of an expensive calculation (`useMemo`) or a function definition (`useCallback`) and returning the cached version if the dependencies haven't changed.",
-                tips: "Explain that `useCallback(fn, deps)` is equivalent to `useMemo(() => fn, deps)`. Use `useMemo` for heavy calculations and `useCallback` to stabilize functions passed to child components (preventing unnecessary re-renders).",
-                codeString: `const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
-
-const stableHandler = useCallback(() => {
-    // This function reference only changes when 'data' changes
-    doSomething(data);
-}, [data]);`,
-                output: "Value calculated once. Handler remains stable."
-            }
-        ];
-
         // --- 2. Code Block Component (Replaces SyntaxHighLighter) ---
         const CodeBlock = ({ codeString = "", output = null, isExplanation = false }) => {
             const [isDark, setIsDark] = useState(true);
